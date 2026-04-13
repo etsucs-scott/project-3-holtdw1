@@ -14,32 +14,51 @@
         /// The number that determines the mine placement
         /// </summary>
         public int Seed { get; set; }
-        public Board(Size size, int mines, int seed)
+        public Board(Size size, int mines)
         {
             Size = size;
             Mines = mines;
-            Seed = seed;
-        }
+        }  
+        /// <summary>
+        /// Generates the board, taking in size, number of mines, and the seed
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="mines"></param>
+        /// <param name="seed"></param>
         public void GenerateBoard(Size size, int mines, int seed)
         {
             if (size == Size.Small)
-            {
-                string[,] Board = new string[8,8];
-                for (int y = 0; y < 8; y++)
+            { 
+                Board Board = new Board(Size.Small, 10);
+                for (int y = 0; y < 9; y++)
                 {
-                    for (int x = 0; x < 8; x++)
+                    for (int x = 0; x < 9; x++)
                     {
-                        //8x8
+                        Cell cell = new Cell(x, y);
                     }
                 }
             }
             if (size == Size.Medium)
             {
-                //12x12
+                Cell[,] Board = new Cell[12, 12];
+                for (int y = 0; y < 13; y++)
+                {
+                    for (int x = 0; x < 13; x++)
+                    {
+                        //12x12
+                    }
+                }
             }
             if (size == Size.Large)
             {
-                //16x16
+                Cell[,] Board = new Cell[16, 16];
+                for (int y = 0; y < 17; y++)
+                {
+                    for (int x = 0; x < 17; x++)
+                    {
+                        //16x16
+                    }
+                }
             }
         }
     }

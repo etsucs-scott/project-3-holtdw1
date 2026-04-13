@@ -19,28 +19,47 @@
         /// </summary>
         public int adjacentMines;
         /// <summary>
+        /// The x coodinate on the plane where the cell is
+        /// </summary>
+        public int X;
+        /// <summary>
+        /// The y coordinate on the plane where the cell is
+        /// </summary>
+        public int Y;
+        public Cell(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+        /// <summary>
         /// Returns the actual representation of the cell's current state
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
+            //pretty intuitive, if conditions show what the cell should display to the console
             if (isFlagged)
             {
-                return "F";
+                return "F"; //flag
             }
             if (!isRevealed)
             {
-                return "#";
+                return "#"; //not is revealed = hidden
             }
             if (isMine && isRevealed)
             {
-                return "b";
+                return "b"; //that means you hit a bomb
             }
             if (adjacentMines > 0)
             {
-                return adjacentMines.ToString();
+                return adjacentMines.ToString(); //should return the number of mines, showing the number
             }
-            else return ".";
+            else return "."; //blank cell
         }
+        /*public int Search()
+        {
+            //do something to look for mines in the adjacent cells, and return adjacent mines
+        }
+        */
     }
 }
