@@ -30,11 +30,15 @@
         /// The ID, that tells the GenerateBoard function how to build the board
         /// </summary>
         public int ID;
-        public Cell(int x, int y, int id)
+        public Cell(int x, int y, int id, bool isMine, bool isRevealed, bool isFlagged, int adjacentMines)
         {
             X = x;
             Y = y;
             ID = id;
+            this.isMine = isMine;
+            this.isRevealed = isRevealed;
+            this.isFlagged = isFlagged;
+            this.adjacentMines = adjacentMines;
         }
         /// <summary>
         /// Returns the actual representation of the cell's current state
@@ -63,8 +67,9 @@
         }
         public int Search()
         {
-            
+
             //do something to look for mines in the adjacent cells, and return adjacent mines
+            return -1;
         }
         
     }

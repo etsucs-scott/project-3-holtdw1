@@ -8,8 +8,8 @@ namespace Minesweeper.Core
 {
     public enum Size
     {
-        Small,
-        Medium,
-        Large
+        Small = 8,
+        Medium = 12,
+        Large = 16
     }
 }
