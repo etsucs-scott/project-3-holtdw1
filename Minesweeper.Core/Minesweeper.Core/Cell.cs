@@ -26,15 +26,10 @@
         /// The y coordinate on the plane where the cell is
         /// </summary>
         public int Y;
-        /// <summary>
-        /// The ID, that tells the GenerateBoard function how to build the board
-        /// </summary>
-        public int ID;
-        public Cell(int x, int y, int id, bool isMine, bool isRevealed, bool isFlagged, int adjacentMines)
+        public Cell(int x, int y, bool isMine, bool isRevealed, bool isFlagged, int adjacentMines)
         {
             X = x;
             Y = y;
-            ID = id;
             this.isMine = isMine;
             this.isRevealed = isRevealed;
             this.isFlagged = isFlagged;

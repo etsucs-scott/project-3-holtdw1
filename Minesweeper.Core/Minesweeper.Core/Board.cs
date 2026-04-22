@@ -30,13 +30,11 @@
         {
             int size = (int)Size;
             Cells = new Cell[size, size];//makes a 2d array of cells
-            int ID = 0;//reset the cell id's
             for (int y = 0; y < size; y++) //increment y0 to y7 (8 total)
             {
                 for (int x = 0; x < size; x++)//increment x0 to x7 (8 total)
                 {
-                    ID++;//increment the cell id for each cell, starting at 1 for readability
-                    Cell cell = new Cell(x, y, ID);//make a new cell with the coordinates and id
+                    Cell cell = new Cell(x, y, false, false, false, 0);//make a new cell with the coordinates and id
                     Cells[x, y] = cell; //at position x, y in the array, place the new cell
                                         //I should be able to use this type of indexing to change cell states
                                         //Not sure if I have to use x, y  or just the ID yet
@@ -44,17 +42,51 @@
                 }
             }
         }
+        /// <summary>
+        /// Places mines at random
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="seed"></param>
         public void PlaceMines(int size, int seed)
         {
+            int minesPlaced = 0;
             if (seed == null)
             {
                 seed = DateTime.Now.Millisecond; //if the seed is null, just make something up
             }
             //this makes the random algorithim work the same with the given seed
             Random random = new Random(seed);
-            int x = random.Next(0, size);
-            int y = random.Next(0, size);
-            Cells[x, y] = ;
+
+            if (size == 8)
+            {
+                while(minesPlaced < 11)
+                {
+                    int x = random.Next(0, size);
+                    int y = random.Next(0, size);
+                    Cells[x, y] = new Cell(x, y, true, false, false, 0);
+                    minesPlaced++;
+                }
+            }
+            if (size == 12)
+            {
+                while(minesPlaced < 26)
+                {
+                    int x = random.Next(0, size);
+                    int y = random.Next(0, size);
+                    Cells[x, y] = new Cell(x, y, true, false, false, 0);
+                    minesPlaced++;
+                }
+            }
+            if (size == 16)
+            {
+                while(minesPlaced < 41)
+                {
+                    int x = random.Next(0, size);
+                    int y = random.Next(0, size);
+                    Cells[x, y] = new Cell(x, y, true, false, false, 0);
+                    minesPlaced++;
+                }
+            }
             /* I don't know what to do with it, though
             The mine count should be small = 10, medium = 25, large = 40
 
