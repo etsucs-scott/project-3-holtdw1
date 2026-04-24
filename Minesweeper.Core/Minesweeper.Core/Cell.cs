@@ -1,4 +1,6 @@
-﻿namespace Minesweeper.Core
+﻿using System.Linq.Expressions;
+
+namespace Minesweeper.Core
 {
     public class Cell
     {
@@ -60,12 +62,46 @@
             }
             else return "."; //blank cell
         }
-        public int Search()
+        public int Search(Board board, int x, int y)
         {
-
-            //do something to look for mines in the adjacent cells, and return adjacent mines
-            return -1;
+            int minesFound = 0;
+            if (x - 1 !< 0) // make sure that you don't leave the bounds
+            {
+                if (board.Cells[x - 1, y].isMine == true) // search left
+                {
+                    minesFound++;
+                }
+                if (board.Cells[x - 1, y - 1].isMine == true) // search down left
+                {
+                    minesFound++;
+                }
+                if (board.Cells[x - 1, y + 1].isMine == true) // search up left
+                {
+                    minesFound++;
+                }
+            }
+            if (board.Cells[x, y - 1].isMine == true) // search down
+            {
+                minesFound++;
+            }
+            if (board.Cells[x + 1, y].isMine == true) // search right
+            {
+                minesFound++;
+            }
+            if (board.Cells[x, y + 1].isMine == true) // search up
+            {
+                minesFound++;
+            }
+            if (board.Cells[x + 1, y + 1].isMine == true) // search up right
+            {
+                minesFound++;
+            }
+            if (board.Cells[x + 1, y - 1].isMine == true) // search down right
+            {
+                minesFound++;
+            }
+            return minesFound;
         }
-        
+
     }
 }

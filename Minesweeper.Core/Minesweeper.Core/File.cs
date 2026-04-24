@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.Core
 {
-    internal class File
+    internal class FileIO
     {
         /// <summary>
         /// The entire data string, delineated by a colon
@@ -28,13 +28,22 @@ namespace Minesweeper.Core
         /// The size of board used
         /// </summary>
         public Size Size;
-        public string SaveGame(int highScore, int moves, int seed, Size size)
+        /// <summary>
+        /// 
+        /// </summary>
+        string FilePath;
+        public void SaveGame(int highScore, int moves, int seed, Size size)
         {
-            return SaveData = $"hs_{highScore}:mvs_{moves}:sd_{seed}:sz_{size}"; 
+            SaveData = $"hs_{highScore}:moves_{moves}:seed_{seed}:size_{size}";
+            FilePath = "./Minesweeper_Save.txt";
+            File.WriteAllText(FilePath,SaveData);
         }
-        public void LoadGame()
+        public void LoadGame(Board board)
         {
-
+            string content = File.ReadAllText(FilePath);
+            var c = content.Split(':');
+            board.HighScoreScore = c[0];
+            string moves = c[1];
         }
     }
 }
