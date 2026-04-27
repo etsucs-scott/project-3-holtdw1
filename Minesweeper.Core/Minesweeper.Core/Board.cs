@@ -13,7 +13,7 @@
         /// <summary>
         /// The number that determines the mine placement
         /// </summary>
-        public int Seed { get; set; }
+        public int? Seed { get; set; }
         /// <summary>
         /// The amount of moves used
         /// </summary>
@@ -24,7 +24,7 @@
         //make an array of the past 5 highscores
         //new highscore class
 
-        public Board(Size size, int seed)
+        public Board(Size size, int? seed)
         {
             Size = size;
             Seed = seed;
@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="size"></param>
         /// <param name="seed"></param>
-        public void PlaceMines(int size, int seed)
+        public void PlaceMines(int size, int? seed)
         {
             int minesPlaced = 0;
             if (seed == null)
@@ -60,7 +60,7 @@
                 seed = DateTime.Now.Millisecond; //if the seed is null, just make something up
             }
             //this makes the random algorithim work the same with the given seed
-            Random random = new Random(seed);
+            Random random = new Random((int)seed);
 
             if (size == 8)//small
             {
@@ -68,6 +68,11 @@
                 {
                     int x = random.Next(0, size);//a number from 0 to whatever size is
                     int y = random.Next(0, size);
+                    while (Cells[x, y].isMine == true)//if the cell we check is a mine, go again until it ain't
+                    {
+                        x = random.Next(0, size);
+                        y = random.Next(0, size);
+                    }
                     Cells[x, y] = new Cell(x, y, true, false, false, 0);//make a new cell with isMine set to true
                     minesPlaced++;//increment
                 }
@@ -78,6 +83,11 @@
                 {
                     int x = random.Next(0, size);
                     int y = random.Next(0, size);
+                    while (Cells[x, y].isMine == true)
+                    {
+                        x = random.Next(0, size);
+                        y = random.Next(0, size);
+                    }
                     Cells[x, y] = new Cell(x, y, true, false, false, 0);
                     minesPlaced++;
                 }
@@ -88,6 +98,11 @@
                 {
                     int x = random.Next(0, size);
                     int y = random.Next(0, size);
+                    while (Cells[x, y].isMine == true)//if the cell we check is a mine, go again until it ain't
+                    {
+                        x = random.Next(0, size);
+                        y = random.Next(0, size);
+                    }
                     Cells[x, y] = new Cell(x, y, true, false, false, 0);
                     minesPlaced++;
                 }
