@@ -108,26 +108,28 @@
                 }
             }
         }
-
+        /// <summary>
+        /// Displays the board and all cells
+        /// </summary>
         public void ShowBoard()
         {
-            int display = 0;
+            int display = 0;//set the top left number to 0
             while (display <= (int)Size)
             {
-                Console.Write($"{display}");
+                Console.Write($"{display}");//print each number on the top row
                 display++;
             }
             Console.WriteLine();
             display = 1;
             for (int y = 0; y < (int)Size; y++)
             {
-                Console.Write($"{display}");
+                Console.Write($"{display}"); //make sure to print a number on each row before showing the cells
                 display++;
                 for (int x = 0; x < (int)Size; x++)
                 {
-                    Console.Write(Cells[x, y].ToString());
+                    Console.Write(Cells[x, y].ToString());//makes sure to show the cell's current state
                 }
-                Console.WriteLine();
+                Console.WriteLine();//make a new line after each row
             }
         }
     }
