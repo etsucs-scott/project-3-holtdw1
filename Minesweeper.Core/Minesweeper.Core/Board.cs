@@ -116,14 +116,19 @@
             int display = 0;//set the top left number to 0
             while (display <= (int)Size)
             {
+                if (display == 1)
+                {
+                    Console.Write("| ");//formatting
+                }
                 Console.Write($"{display}");//print each number on the top row
                 display++;
             }
-            Console.WriteLine();
+            Console.WriteLine();//formatting
+
             display = 1;
             for (int y = 0; y < (int)Size; y++)
             {
-                Console.Write($"{display}"); //make sure to print a number on each row before showing the cells
+                Console.Write($"{display}| "); //make sure to print a number on each row before showing the cells
                 display++;
                 for (int x = 0; x < (int)Size; x++)
                 {

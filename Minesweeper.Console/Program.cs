@@ -1,6 +1,9 @@
 ﻿using Minesweeper.Core;
 bool main = true;
-while (main = true)
+string action;
+string row;
+string column;//have to initialize here for scoping
+while (main == true)
 {
     //I think this little menu is cute
     Console.WriteLine("--------------------Minesweeper Clone V0.01 - Alpha Build--------------");
@@ -11,9 +14,9 @@ while (main = true)
     Console.WriteLine("-----------------------------------------------------------------------");
     Console.Write("Input a number, and press enter to continue: ");
 
-    bool gameState = true;
+    bool running = true;
     Board board;//was having scoping issues, so I'm defining it here, initializing later
-    while (gameState == true) //set to false to break the entire loop
+    while (running == true) //set to false to break the entire loop
     {
         string? input = Console.ReadLine();
         Console.WriteLine(); //formatting
@@ -39,7 +42,8 @@ while (main = true)
                 Console.WriteLine("-----------------------------------------------------------------------\n");
                 Console.Write("Input a number, and press enter to continue: ");
 
-                while (true) //this just keeps the loop going to recollect inputs
+                bool state = true; //it's really hard to quit out of all these loops
+                while (state == true) //this just keeps the loop going to recollect inputs
                 {
                     string? input2 = Console.ReadLine(); //input is technically in the same scope, so I made a new one
                     Console.WriteLine();//formatting
@@ -76,14 +80,14 @@ while (main = true)
                                                                           //that little (int) means to treat the size as an int, not as an enum. This works
                                                                           //because each size has a number tied to it. Size.Small is just easier to read
 
-                            bool running = true;
-                            while (running == true)
+                            bool gameState = true;
+                            while (gameState == true)
                             {
                                 board.ShowBoard();//show the updated board on each loop
 
                                 //-------This section validates user input for changing tile states-----------------
-                                Console.WriteLine("Input the action for the tile - flag (f), reveal (r): ");
-                                string action = Console.ReadLine().ToLower();
+                                Console.WriteLine("Input the action for the tile - flag (f), reveal (r) or q to quit: ");
+                                action = Console.ReadLine().ToLower();
                                 while (true)
                                 {
                                     while (action.ToLower() != "f" && action.ToLower() != "r" && action.ToLower() != "q")
@@ -94,94 +98,112 @@ while (main = true)
                                     if (action.ToLower() == "q")
                                     {
                                         Console.Clear();
-                                        Console.WriteLine("Returning to main menu...");
+                                        Console.WriteLine("Returning to main menu...\n\n");
                                         Thread.Sleep(500);
+                                        gameState = false;
+                                        state = false;
                                         running = false; //basically goes back to main menu
+                                        break;
                                     }
                                     break;
                                 }
 
-                                Console.WriteLine($"Input the row to interact with (1 - {(int)board.Size}) or q to quit:");
-                                string row = Console.ReadLine().ToLower();
-                                while (true)
+                                if (action.ToLower() == "q") //these hold to break at any point in the program in case the user changes their mind
                                 {
-                                    if (row.ToLower() == "q")
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Input the row to interact with (1 - {(int)board.Size}) or q to quit:");
+                                    row = Console.ReadLine().ToLower();
+                                    while (true)
                                     {
-                                        Console.Clear();
-                                        Console.WriteLine("Returning to main menu...");
-                                        Thread.Sleep(500);
-                                        running = false; //basically goes back to main menu
-                                    }
-                                    if (int.TryParse(row, out int y) == false)//false means the parsing didn't work
-                                    {
-                                        Console.WriteLine("Input was not a number, please try again");
-                                        row = Console.ReadLine().ToLower();
-                                    }
-                                    else//meaning if the parsing works
-                                    {
-                                        while (y < 1 || y > (int)board.Size)//checks bounds
+                                        if (row.ToLower() == "q")
                                         {
-                                            Console.WriteLine("Input was out of bounds, please try again");
+                                            Console.Clear();
+                                            Console.WriteLine("Returning to main menu...\n\n");
+                                            Thread.Sleep(500);
+                                            gameState = false;
+                                            state = false;
+                                            running = false; //basically goes back to main menu
+                                            break;
+                                        }
+                                        while (int.TryParse(row, out int y) == false || y < 1 || y > (int)board.Size)//false means the parsing didn't work
+                                        {
+                                            Console.WriteLine("Input was out of bounds, or was not a number. Please try again");
                                             row = Console.ReadLine().ToLower();
                                         }
                                         break;
                                     }
                                 }
 
-                                Console.WriteLine($"Input the column to interact with (1 - {(int)board.Size}) or q to quit:");
-                                string column = Console.ReadLine().ToLower();
-                                while (true)
+                                if (action.ToLower() == "q" || row.ToLower() == "q")//check to make sure quit wasn't selected
                                 {
-                                    if (column.ToLower() == "q")
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Input the column to interact with (1 - {(int)board.Size}) or q to quit:");
+                                    column = Console.ReadLine().ToLower();
+                                    while (true)
                                     {
-                                        Console.Clear();
-                                        Console.WriteLine("Returning to main menu...");
-                                        Thread.Sleep(500);
-                                        running = false; //basically goes back to main menu
-                                    }
-                                    if (int.TryParse(column, out int x) == false)//false means the parsing didn't work
-                                    {
-                                        Console.WriteLine("Input was not a number, please try again");
-                                        column = Console.ReadLine().ToLower();
-                                    }
-                                    else//meaning if the parsing works
-                                    {
-                                        while (x < 1 || x > (int)board.Size)//checks bounds
+                                        if (column.ToLower() == "q" || row.ToLower() == "q" || action.ToLower() == "q")
                                         {
-                                            Console.WriteLine("Input was out of bounds, please try again");
+                                            Console.Clear();
+                                            Console.WriteLine("Returning to main menu...\n\n");
+                                            Thread.Sleep(500);
+                                            gameState = false;
+                                            state = false;
+                                            running = false; //basically goes back to main menu
+                                            break;
+                                        }
+                                        while (int.TryParse(column, out int y) == false || y < 1 || y > (int)board.Size)//false means the parsing didn't work
+                                        {
+                                            Console.WriteLine("Input was out of bounds, or was not a number. Please try again");
                                             column = Console.ReadLine().ToLower();
                                         }
                                         break;
                                     }
                                 }
-                                //I tried string.Split, but I couldn't really figure it out. Hope this works!
 
                                 //-------This section handles the actual game logic for changing tile states--------------
-                                if (action.ToLower() == "f")
+                                if (action.ToLower() != "q" && row.ToLower() != "q" && column.ToLower() != "q")
                                 {
-                                    if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged == true)
+                                    if (action.ToLower() == "f")//if you chose to flag
                                     {
-                                        board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged = false;
-                                        Console.WriteLine("Flag removed");
+                                        if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged == true)
+                                        {
+                                            board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged = false;
+                                            Console.WriteLine("Flag removed");
+                                            //if it's flagged, remove the flag
+                                        }
+                                        else
+                                        {
+                                            board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged = true;//-1 is because the user inputs 1-8, but the array is 0-7
+                                            Console.WriteLine("Flag placed");//it it's not, flag it
+                                        }
                                     }
-                                    board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged = true;//-1 is because the user inputs 1-8, but the array is 0-7
-                                    Console.WriteLine("Flag placed");
-                                }
-                                else if (action.ToLower() == "r")
-                                {
-                                    if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isRevealed == true)
+                                    else if (action.ToLower() == "r")//reveal the cell
                                     {
-                                        Console.WriteLine("You've already revealed that one");
-                                    }
-                                    else if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isMine == true)
-                                    {
-                                        Console.WriteLine("You hit a mine! Game over!");
-                                        Console.Clear();
-                                        gameState = false; //breaks the game loop, but not the main menu loop
-                                    }
-                                    else
-                                    {
-                                        board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isRevealed = true;//reveals the cell. The -1 is because the user inputs 1-8, but the array is 0-7
+                                        if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isRevealed == true)
+                                        {
+                                            Console.WriteLine("You've already revealed that one\n");
+                                            //if it's already revealed, do nothing
+                                        }
+                                        else if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isMine == true)
+                                        {
+                                            //if you hit a bomb, end the game
+                                            Console.WriteLine("You hit a mine! Game over!\n\n");
+                                            state = false;
+                                            running = false;
+                                            gameState = false; //breaks the game loop, but not the main menu loop
+                                        }
+                                        else
+                                        {
+                                            //if all goes well, reveal the cell
+                                            board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isRevealed = true;//reveals the cell. The -1 is because the user inputs 1-8, but the array is 0-7
+                                        }
+                                        //I tried string.Split, but I couldn't really figure it out. Hope this works!
                                     }
                                 }
                             }
