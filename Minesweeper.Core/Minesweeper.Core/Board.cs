@@ -75,6 +75,7 @@
                     }
                     Cells[x, y] = new Cell(x, y, true, false, false, 0);//make a new cell with isMine set to true
                     minesPlaced++;//increment
+                    Cells[x, y].Search(this, x, y);//add 1 to all adjacent cells' mine counts
                 }
             }
             if (size == 12)

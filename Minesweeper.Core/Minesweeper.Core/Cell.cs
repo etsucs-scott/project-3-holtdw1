@@ -60,96 +60,61 @@
             }
             else return "."; //blank cell
         }
-        /// <summary>
-        /// Search all cells to the left of current position
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public int SearchLeft (Board board, int x, int y)
+        public void Search(Board board, int x, int y)
         {
-            int minesFound = 0;
-            if (board.Cells[x - 1, y].isMine == true) // search left
+            //add 1 to all adjacent cells' mine counts
+            if (x - 1 > 0 && y - 1 > 0 && x + 1 < (int)board.Size && y + 1 < (int)board.Size)
             {
-                minesFound++;
+                //if all adjacent cells are in bounds, add 1 to all of them
+                board.Cells[x - 1, y].adjacentMines++; //left
+                board.Cells[x - 1, y - 1].adjacentMines++; //down left
+                board.Cells[x - 1, y + 1].adjacentMines++; //up left
+                board.Cells[x, y - 1].adjacentMines++; //down
+                board.Cells[x, y + 1].adjacentMines++; //up
+                board.Cells[x + 1, y].adjacentMines++; //right
+                board.Cells[x + 1, y - 1].adjacentMines++; //down right
+                board.Cells[x + 1, y + 1].adjacentMines++; //up right
             }
-            if (board.Cells[x - 1, y - 1].isMine == true) // search down left
+            else
             {
-                minesFound++;
+                //if some adjacent cells are out of bounds, check each one and only add 1 if it's in bounds
+                if (x - 1 > 0)
+                {
+                    board.Cells[x - 1, y].adjacentMines++; //left
+                    if (y - 1 > 0)
+                    {
+                        board.Cells[x - 1, y - 1].adjacentMines++; //down left
+                    }
+                    if (y + 1 < (int)board.Size)
+                    {
+                        board.Cells[x - 1, y + 1].adjacentMines++; //up left
+                    }
+                }
+                if (y - 1 > 0)
+                {
+                    board.Cells[x, y - 1].adjacentMines++; //down
+                }
+                if (y + 1 < (int)board.Size)
+                {
+                    board.Cells[x, y + 1].adjacentMines++; //up
+                }
+                if (x + 1 < (int)board.Size)
+                {
+                    board.Cells[x + 1, y].adjacentMines++; //right
+                    if (y - 1 > 0)
+                    {
+                        board.Cells[x + 1, y - 1].adjacentMines++; //down right
+                    }
+                    if (y + 1 < (int)board.Size)
+                    {
+                        board.Cells[x + 1, y + 1].adjacentMines++; //up right
+                    }
+                }
             }
-            if (board.Cells[x - 1, y + 1].isMine == true) // search up left
+            if (adjacentMines == 0 && isMine == false)
             {
-                minesFound++;
+                isRevealed = true; //if the cell has no adjacent mines and isn't a mine, reveal it
             }
-            return minesFound;
-        }
-        /// <summary>
-        /// Search all cells to the right of current position
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public int SearchRight (Board board, int x, int y)
-        {
-            int minesFound = 0;
-            if (board.Cells[x + 1, y].isMine == true) // search right
-            {
-                minesFound++;
-            }
-            if (board.Cells[x + 1, y + 1].isMine == true) // search up right
-            {
-                minesFound++;
-            }
-            if (board.Cells[x + 1, y - 1].isMine == true) // search down right
-            {
-                minesFound++;
-            }
-            return minesFound;
-        }
-        /// <summary>
-        /// Search the cell above current position
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public int SearchUp (Board board, int x, int y)
-        {
-            int minesFound = 0;
-            if (board.Cells[x, y + 1].isMine == true) // search up
-            {
-                minesFound++;
-            }
-            return minesFound;
-        }
-        /// <summary>
-        /// Search the cell below current position
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public int SearchDown (Board board, int x, int y)
-        {
-            int minesFound = 0;
-            if (board.Cells[x, y - 1].isMine == true) // search down
-            {
-                minesFound++;
-            }
-            return minesFound;
-        }
-        /// <summary>
-        /// Search all cells surrounding current position
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public int SearchAll(Board board, int x, int y)
-        {
-            return SearchRight(board, x, y) + SearchLeft(board, x, y) + SearchDown(board, x, y) + SearchUp(board, x, y);
         }
     }
 }

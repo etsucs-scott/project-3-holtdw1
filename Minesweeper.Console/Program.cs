@@ -174,12 +174,14 @@ while (main == true)
                                         if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged == true)
                                         {
                                             board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged = false;
+                                            Console.Clear();
                                             Console.WriteLine("Flag removed");
                                             //if it's flagged, remove the flag
                                         }
                                         else
                                         {
                                             board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged = true;//-1 is because the user inputs 1-8, but the array is 0-7
+                                            Console.Clear();
                                             Console.WriteLine("Flag placed");//it it's not, flag it
                                         }
                                     }
@@ -193,6 +195,7 @@ while (main == true)
                                         else if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isMine == true)
                                         {
                                             //if you hit a bomb, end the game
+                                            Console.Clear();
                                             Console.WriteLine("You hit a mine! Game over!\n\n");
                                             state = false;
                                             running = false;
@@ -202,6 +205,7 @@ while (main == true)
                                         {
                                             //if all goes well, reveal the cell
                                             board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isRevealed = true;//reveals the cell. The -1 is because the user inputs 1-8, but the array is 0-7
+                                            Console.Clear();
                                         }
                                         //I tried string.Split, but I couldn't really figure it out. Hope this works!
                                     }
