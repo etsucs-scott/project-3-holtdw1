@@ -58,6 +58,10 @@
             {
                 return adjacentMines.ToString(); //should return the number of mines, showing the number
             }
+            if (adjacentMines == 0 && !isRevealed)
+            {
+                return "."; //if there are no mines around the cell, show a blank space
+            }
             else return "."; //blank cell
         }
         /// <summary>
@@ -69,7 +73,7 @@
         public void Sweep(Board board, int x, int y)
         {
             //add 1 to all adjacent cells' mine counts
-            if (x - 1 > 0 && y - 1 > 0 && x + 1 < (int)board.Size && y + 1 < (int)board.Size)
+            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < (int)board.Size && y + 1 < (int)board.Size)
             {
                 //if all adjacent cells are in bounds, add 1 to all of them
                 board.Cells[x - 1, y].adjacentMines++; //left
@@ -84,10 +88,10 @@
             else
             {
                 //if some adjacent cells are out of bounds, check each one and only add 1 if it's in bounds
-                if (x - 1 > 0)
+                if (x - 1 >= 0)
                 {
                     board.Cells[x - 1, y].adjacentMines++; //left
-                    if (y - 1 > 0)
+                    if (y - 1 >= 0)
                     {
                         board.Cells[x - 1, y - 1].adjacentMines++; //down left
                     }
@@ -96,7 +100,7 @@
                         board.Cells[x - 1, y + 1].adjacentMines++; //up left
                     }
                 }
-                if (y - 1 > 0)
+                if (y - 1 >= 0)
                 {
                     board.Cells[x, y - 1].adjacentMines++; //down
                 }
@@ -107,7 +111,7 @@
                 if (x + 1 < (int)board.Size)
                 {
                     board.Cells[x + 1, y].adjacentMines++; //right
-                    if (y - 1 > 0)
+                    if (y - 1 >= 0)
                     {
                         board.Cells[x + 1, y - 1].adjacentMines++; //down right
                     }

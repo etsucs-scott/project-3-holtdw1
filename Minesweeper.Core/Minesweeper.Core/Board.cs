@@ -18,9 +18,22 @@
         /// The amount of moves used
         /// </summary>
         public int Moves { get; set; }
-        public string HighScoreScore { get; set; }
-        public string HighScoreMoves { get; set; }
-        public string HighScoreSeed { get; set; }
+        /// <summary>
+        /// Completion time in seconds
+        /// </summary>
+        public int Score { get; set; }
+        /// <summary>
+        /// The number of flags placed
+        /// </summary>
+        public int Flags { get; set; }
+        /// <summary>
+        /// The number of mines on the board
+        /// </summary>
+        public int Mines { get; set; }
+        /// <summary>
+        /// The file to load from
+        /// </summary>
+        public FileIO File { get; set; }
         //make an array of the past 5 highscores
         //new highscore class
 
@@ -64,6 +77,7 @@
 
             if (size == 8)//small
             {
+                Mines = 10;
                 while (minesPlaced < 11)//less than 11 is 10
                 {
                     int x = random.Next(0, size);//a number from 0 to whatever size is
@@ -80,6 +94,7 @@
             }
             if (size == 12)
             {
+                Mines = 25;
                 while (minesPlaced < 26)
                 {
                     int x = random.Next(0, size);
@@ -96,6 +111,7 @@
             }
             if (size == 16)
             {
+                Mines = 40;
                 while (minesPlaced < 41)
                 {
                     int x = random.Next(0, size);
@@ -117,6 +133,7 @@
         public void ShowBoard()
         {
             int display = 0;//set the top left number to 0
+            Console.Write(" ");//formatting
             while (display <= (int)Size)
             {
                 if (display == 1)

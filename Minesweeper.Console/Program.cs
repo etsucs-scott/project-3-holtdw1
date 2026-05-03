@@ -3,6 +3,9 @@ bool main = true;
 string action;
 string row;
 string column;//have to initialize here for scoping
+FileIO file = new FileIO();
+Board board;//was having scoping issues, so I'm defining it here, initializing later
+
 while (main == true)
 {
     //I think this little menu is cute
@@ -15,7 +18,6 @@ while (main == true)
     Console.Write("Input a number, and press enter to continue: ");
 
     bool running = true;
-    Board board;//was having scoping issues, so I'm defining it here, initializing later
     while (running == true) //set to false to break the entire loop
     {
         string? input = Console.ReadLine();
@@ -170,7 +172,7 @@ while (main == true)
                                 {
                                     if (action.ToLower() == "f")//if you chose to flag
                                     {
-                                        if (board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged == true)
+                                        if (board.Cells[int.Parse(column), int.Parse(row)].isFlagged == true)
                                         {
                                             board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged = false;
                                             Console.Clear();
@@ -207,7 +209,7 @@ while (main == true)
                                         {
                                             //if all goes well, reveal the cell
                                             board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isRevealed = true;//reveals the cell. The -1 is because the user inputs 1-8, but the array is 0-7
-                                            board.Search(board, int.Parse(column), int.Parse(row));
+                                            board.Search(board, int.Parse(column) - 1, int.Parse(row) - 1);
                                             Console.Clear();
                                             board.Moves++;
                                         }
@@ -333,14 +335,35 @@ while (main == true)
                                             Console.Clear();
                                             Console.WriteLine("Flag removed");
                                             board.Moves++;
+                                            board.Flags--;
                                             //if it's flagged, remove the flag
                                         }
                                         else
                                         {
                                             board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isFlagged = true;//-1 is because the user inputs 1-8, but the array is 0-7
                                             Console.Clear();
-                                            Console.WriteLine("Flag placed");//it it's not, flag it
+                                            Console.WriteLine("Flag placed") ;//if it's not, flag it
                                             board.Moves++;
+                                            foreach (Cell cell in board.Cells)
+                                            {
+                                                if (cell.isFlagged == true && cell.isMine == true)
+                                                {
+                                                    board.Flags++;
+                                                }
+                                            }
+                                            if (board.Flags == board.Mines)
+                                            {
+                                                Console.WriteLine($"You have found all {board.Mines} mines! You win! Press enter to return to the main menu");
+                                                state = false;
+                                                running = false;
+                                                gameState = false; //breaks the game loop, but not the main menu loop
+
+                                                file.SaveGame(board.Score, board.Moves, (int)board.Seed, board.Size);
+                                                board.File = file;
+
+                                                Console.ReadLine();
+                                                break;
+                                            }
                                         }
                                     }
                                     else if (action.ToLower() == "r")//reveal the cell
@@ -364,7 +387,7 @@ while (main == true)
                                         {
                                             //if all goes well, reveal the cell
                                             board.Cells[(int.Parse(column) - 1), (int.Parse(row) - 1)].isRevealed = true;//reveals the cell. The -1 is because the user inputs 1-8, but the array is 0-7
-                                            board.Search(board, int.Parse(column), int.Parse(row));
+                                            board.Search(board, (int.Parse(column) - 1), (int.Parse(row) - 1));
                                             Console.Clear();
                                             board.Moves++;
                                         }
@@ -544,10 +567,8 @@ while (main == true)
             }//play the game
             if (choice == 2)
             {
-                Console.WriteLine("High Scores coming soon!\n");
-                Thread.Sleep(1000);
-                break;
-            }//view saved high scores
+                file.LoadGame(board);
+            }
             if (choice == 3)
             {
                 Console.WriteLine("Exiting game...");

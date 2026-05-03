@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.Core
 {
-    internal class FileIO
+    public class FileIO
     {
         /// <summary>
         /// The entire data string, delineated by a colon
@@ -42,7 +42,7 @@ namespace Minesweeper.Core
         {
             string content = File.ReadAllText(FilePath);
             var c = content.Split(':');
-            board.HighScoreScore = c[0];
+            board.Score = c[0];
             string moves = c[1];
         }
     }
